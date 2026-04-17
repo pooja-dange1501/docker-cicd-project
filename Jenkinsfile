@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Test Stage') {
+        stage('Test') {
             steps {
-                echo 'HELLO POOJA 🚀'
+                echo "PIPELINE IS RUNNING 🚀"
             }
         }
     }
