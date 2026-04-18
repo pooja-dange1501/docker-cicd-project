@@ -21,9 +21,15 @@ pipeline {
             }
         }
 
+        stage('Remove Old Container') {
+            steps {
+                sh 'docker rm -f pooja-container || true'
+            }
+        }
+
         stage('Run Container') {
             steps {
-                sh 'docker run -d -p 8081:80 pooja-app'
+                sh 'docker run -d -p 8081:80 --name pooja-container pooja-app'
             }
         }
     }
