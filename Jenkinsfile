@@ -2,15 +2,23 @@ pipeline {
     agent any
 
     stages {
-        stage('Clean Workspace') {
+
+        stage('Checkout') {
             steps {
-                deleteDir()
+                checkout scm
             }
         }
 
-        stage('Test') {
+        stage('Debug') {
             steps {
-                echo 'HELLO POOJA 🚀'
+                sh 'pwd'
+                sh 'ls -la'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t pooja-app .'
             }
         }
     }
