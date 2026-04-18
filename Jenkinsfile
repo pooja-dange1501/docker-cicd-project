@@ -21,14 +21,14 @@ pipeline {
             }
         }
 
-        stage('Push to ECR') {
-            steps {
-                sh '''
-                aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
-                docker tag pooja-app $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest
-                docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest
-                '''
-            }
-        }
+       stage('Push to ECR') {
+    steps {
+        sh '''
+        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 123012261850.dkr.ecr.ap-south-1.amazonaws.com
+        docker tag pooja-app 123012261850.dkr.ecr.ap-south-1.amazonaws.com/myapp-repo:latest
+        docker push 123012261850.dkr.ecr.ap-south-1.amazonaws.com/myapp-repo:latest
+        '''
+    }
+}
     }
 }
