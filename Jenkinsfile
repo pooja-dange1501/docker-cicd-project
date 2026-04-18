@@ -21,12 +21,12 @@ pipeline {
             }
         }
 
-       stage('Push to ECR') {
+   stage('Tag Image') {
     steps {
         sh '''
-        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 123012261850.dkr.ecr.ap-south-1.amazonaws.com
-        docker tag pooja-app 123012261850.dkr.ecr.ap-south-1.amazonaws.com/myapp-repo:latest
-        docker push 123012261850.dkr.ecr.ap-south-1.amazonaws.com/myapp-repo:latest
+        COMMIT_ID=$(git rev-parse --short HEAD)
+        docker tag pooja-app 123012261850.dkr.ecr.ap-south-1.amazonaws.com/myapp-repo:$COMMIT_ID
+        docker push 123012261850.dkr.ecr.ap-south-1.amazonaws.com/myapp-repo:$COMMIT_ID
         '''
     }
 }
