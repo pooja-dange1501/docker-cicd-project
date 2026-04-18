@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        AWS_REGION = 'ap-south-1'
+        ACCOUNT_ID = '123012261850'
+        REPO_NAME = 'myapp-repo'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -15,15 +21,13 @@ pipeline {
             }
         }
 
-        stage('Remove Old Container') {
+        stage('Push to ECR') {
             steps {
-                sh 'docker rm -f pooja-container || true'
-            }
-        }
-
-        stage('Run Container') {
-            steps {
-                sh 'docker run -d -p 8081:5000 --name pooja-container pooja-app'
+                sh '''
+                aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+                docker tag pooja-app $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest
+                docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$REPO_NAME:latest
+                '''
             }
         }
     }
